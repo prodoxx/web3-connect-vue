@@ -87,7 +87,6 @@ export const useWalletStore = defineStore("wallet", () => {
         }
 
         state.isConnected = true;
-        console.log("Is Connected: ", state.isConnected);
         return connectedProvider;
     }
 
@@ -96,7 +95,6 @@ export const useWalletStore = defineStore("wallet", () => {
             const shouldSwitch = window.confirm("Switch to Ethereum network?");
             if (shouldSwitch) {
                 await switchNetwork();
-                // window.location.reload();
             }
             return true;
         }
@@ -107,7 +105,7 @@ export const useWalletStore = defineStore("wallet", () => {
     function disconnect(): void {
         web3Modal.clearCachedProvider();
         state.isConnected = false;
-        state.address = "FYCKKKK";
+        state.address = "";
         state.providerChainID = DEFAULT_NETWORK;
         state.provider = new StaticJsonRpcProvider(
             getNetworkParams().rpcUrls[0]
