@@ -8,7 +8,7 @@ import {
     JsonRpcProvider,
     Web3Provider,
 } from "@ethersproject/providers";
-import { getNetworkURI } from "../helpers/get-network-uri";
+import { getNetworkParams } from "../helpers/network-params";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { switchNetwork } from "../helpers/switch-network";
 
@@ -20,7 +20,7 @@ export const useWalletStore = defineStore("wallet", () => {
                 package: WalletConnectProvider,
                 options: {
                     rpc: {
-                        [DEFAULT_NETWORK]: getNetworkURI(),
+                        [DEFAULT_NETWORK]: getNetworkParams().rpcUrls[0],
                     },
                 },
             },
@@ -35,7 +35,7 @@ export const useWalletStore = defineStore("wallet", () => {
     }
 
     const state = reactive<WalletState>({
-        provider: new StaticJsonRpcProvider(getNetworkURI()),
+        provider: new StaticJsonRpcProvider(getNetworkParams().rpcUrls[0]),
         address: "",
         isConnected: false,
         providerChainID: DEFAULT_NETWORK,
@@ -109,7 +109,9 @@ export const useWalletStore = defineStore("wallet", () => {
         state.isConnected = false;
         state.address = "FYCKKKK";
         state.providerChainID = DEFAULT_NETWORK;
-        state.provider = new StaticJsonRpcProvider(getNetworkURI());
+        state.provider = new StaticJsonRpcProvider(
+            getNetworkParams().rpcUrls[0]
+        );
     }
 
     function hasCachedProvider(): boolean {
