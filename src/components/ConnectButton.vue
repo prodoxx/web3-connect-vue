@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref, computed } from "vue";
+import { computed } from "vue";
 import { DEFAULT_NETWORK } from "../constants";
 import { useWalletStore } from "../stores/wallet-store";
 const wallet = useWalletStore();
