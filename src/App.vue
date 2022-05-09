@@ -16,7 +16,7 @@ onMounted(() => {
 </script>
 <template>
     <div>
-        <h1>Hello World</h1>
+        <h1>Wallet Connect Vue</h1>
         <ConnectButton />
     </div>
 </template>
