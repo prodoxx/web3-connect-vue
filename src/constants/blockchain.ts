@@ -1,9 +1,11 @@
+/* Edit these variables to your requirements */
 export const TOKEN_DECIMALS = 18;
 
-export enum Networks {
+export enum Networks { // Chain Ids
     TEST_NET = 4,
     MAIN_NET = 1,
 }
+/* End of edit */
 
 export const currentNetwork = () => {
     const network = import.meta.env.VITE_BLOCKCHAIN_NETWORK;
