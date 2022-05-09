@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { markRaw, ref, reactive } from "vue";
+import { markRaw, ref, reactive, DeepReadonly } from "vue";
 import type { Ref } from "vue";
 import Web3Modal from "web3modal";
 import { DEFAULT_NETWORK } from "../constants";
@@ -12,7 +12,22 @@ import { getNetworkParams } from "../helpers/network-params";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { switchNetwork } from "../helpers/switch-network";
 
-export const useWalletStore = defineStore("wallet", () => {
+interface WalletState {
+    provider: JsonRpcProvider;
+    address: string;
+    isConnected: boolean;
+    providerChainID: number;
+}
+
+interface WalletStore {
+    state: DeepReadonly<WalletState>;
+    connect(): Promise<Web3Provider>;
+    disconnect(): void;
+    hasCachedProvider(): boolean;
+    checkWrongNetwork(): Promise<boolean>;
+}
+
+export const useWalletStore = defineStore("wallet", (): WalletStore => {
     const web3Modal: Web3Modal = new Web3Modal({
         cacheProvider: true,
         providerOptions: {
@@ -26,13 +41,6 @@ export const useWalletStore = defineStore("wallet", () => {
             },
         },
     });
-
-    interface WalletState {
-        provider: JsonRpcProvider;
-        address: string;
-        isConnected: boolean;
-        providerChainID: number;
-    }
 
     const state = reactive<WalletState>({
         provider: new StaticJsonRpcProvider(getNetworkParams().rpcUrls[0]),
