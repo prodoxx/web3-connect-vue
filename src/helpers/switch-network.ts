@@ -1,4 +1,5 @@
-import { Networks, DEFAULT_NETWORK } from "../constants/blockchain";
+import { DEFAULT_NETWORK } from "../constants/blockchain";
+import { getNetworkParams } from "../helpers/network-params";
 
 const switchRequest = () => {
     return window.ethereum.request({
@@ -7,49 +8,8 @@ const switchRequest = () => {
     });
 };
 
-const currentNetworkParams = () => {
-    switch (DEFAULT_NETWORK) {
-        case Networks.MAIN_NET:
-            return {
-                chainId: `0x${Networks.MAIN_NET.toString(16)}`,
-                chainName: "Fantom Opera",
-                rpcUrls: ["https://rpc.ftm.tools/"],
-                blockExplorerUrls: ["https://ftmscan.com/"],
-                nativeCurrency: {
-                    name: "Fantom",
-                    symbol: "FTM",
-                    decimals: 18,
-                },
-            };
-        case Networks.TEST_NET:
-            return {
-                chainId: `0x${Networks.TEST_NET.toString(16)}`,
-                chainName: "Fantom Testnet",
-                rpcUrls: ["https://rpc.testnet.fantom.network"],
-                blockExplorerUrls: ["https://testnet.ftmscan.com"],
-                nativeCurrency: {
-                    name: "Fantom",
-                    symbol: "FTM",
-                    decimals: 18,
-                },
-            };
-        default:
-            return {
-                chainId: `0x${Networks.MAIN_NET.toString(16)}`,
-                chainName: "Fantom Mainnet",
-                rpcUrls: ["https://rpc.ftm.tools"],
-                blockExplorerUrls: ["https://ftmscan.com"],
-                nativeCurrency: {
-                    name: "Fantom",
-                    symbol: "FTM",
-                    decimals: 18,
-                },
-            };
-    }
-};
-
 const addChainRequest = () => {
-    const networkParams = currentNetworkParams();
+    const networkParams = getNetworkParams();
     return window.ethereum.request({
         method: "wallet_addEthereumChain",
         params: [networkParams],
